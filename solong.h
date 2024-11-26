@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   solong.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 08:59:58 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/14 08:42:16 by rsebasti         ###   ########.fr       */
+/*   Created: 2024/11/26 14:11:26 by rsebasti          #+#    #+#             */
+/*   Updated: 2024/11/26 15:03:53 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef SO_LONG_H
+# define SO_LONG_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 50
 # endif
 
-# if BUFFER_SIZE < 1
-#  undef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# elif BUFFER_SIZE > 8000000
-#  undef BUFFER_SIZE
-#  define BUFFER_SIZE 8000000
-# endif
-
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdarg.h>
+# include "ft_printf/ft_printf.h"
 
 char	*ft_strchr(char *s);
 char	*ft_strjoin(char **s1, char *s2);
