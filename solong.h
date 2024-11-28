@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:26 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/28 15:46:11 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:42:36 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdarg.h>
 # include "ft_printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
+# include "libft/libft.h"
 
 typedef struct 	s_point {
     int 		x;			

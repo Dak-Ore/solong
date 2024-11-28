@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/28 16:30:30 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:39:47 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**addrow(char *line, char ***map, int nb)
 	{
 		while ((*map)[i])
 		{
-			newmap[i] = ft_strdup(*map)[i];
+			newmap[i] = ft_strdup((*map)[i]);
 			i++;
 		}
 	}
