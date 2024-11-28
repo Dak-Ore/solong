@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/26 17:02:17 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:11:55 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ char	*addrow(char *line, char ***map, int nb)
 	return (newmap);
 }
 
-int		checkline(char *line, int islimit)
+int		checkline(char *line, int islimit, int len)
 {
 	int	i;
 
 	i = 0;
 	if (islimit == 0)
 	{
-		if (line[0] && line[ft_strlen])
+		if (line[0] == '1' && line[len] == '1')
 			return (1);
 		else
 		{
@@ -59,7 +59,21 @@ int		checkline(char *line, int islimit)
 		}
 	}
 }
+char	**killmap(char **map, char *line, char *next)
+{
+	int	i;
 
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	if (next)
+		free(next);
+	free(map);
+	return (NULL);
+}
 char	**createmap(int fd)
 {
 	int		len;
@@ -77,7 +91,7 @@ char	**createmap(int fd)
 		if (checkline(line, (nb == 0 || !next)))
 			addrow(line, &map,)
 		else
-			return (NULL);
+			return (killmap(map, line, next));
 		nb++;
 		line = next;
 	}

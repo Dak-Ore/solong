@@ -1,20 +1,35 @@
-NAME = Test
-SRCS = test.c
+NAME = so_long
 
-OBJS = $(SRCS:.c=.o)
+LIBFT = libft/libft.a
 
-%.o: %.c
-	cc -I/usr/include -Imlx_linux -O3 -c $< -o $@
+FLAGS = -Wall -Wextra -Werror
+LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
 
-$(NAME): $(OBJS)
-	cc $(OBJS) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+SOURCES = \
+    parsing.c \
+    checkmap.c
+
+OBJDIR = obj
+OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
+
+$(NAME): $(LIBFT) $(OBJS)
+    @cc $(FLAGS) $(LIBFLAGS) -o $(NAME) $(OBJS) $(LIBFT) minilibx-linux/libmlx.a
 
 all: $(NAME)
 
+$(OBJDIR):
+    @mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
+    @cc $(FLAGS) -c $< -o $@
+
+$(LIBFT):
+    @make -C libft all
+
 clean:
-	rm -f $(OBJS) $(BONUS_OBJS)
-	
+    @rm -rf $(OBJDIR)
+
 fclean: clean
-	rm -f $(NAME)
-	
+    @rm -f $(NAME)
+
 re: fclean all
