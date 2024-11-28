@@ -1,35 +1,43 @@
 NAME = so_long
-
 LIBFT = libft/libft.a
-
-FLAGS = -Wall -Wextra -Werror
-LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
-
-SOURCES = \
-    parsing.c \
-    checkmap.c
-
+FT_PRINTF = ft_printf/libftprintf.a
+FLAGS = -Wall -Wextra -Werror -ggdb
+SRC_DIR = .
 OBJDIR = obj
+SOURCES = \
+    checkmap.c \
+    parsing.c \
+    main.c \
+    get_next_line/get_next_line.c \
+    get_next_line/get_next_line_utils.c
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
+OBJDIRS = $(sort $(dir./ $(OBJS)))
 
-$(NAME): $(LIBFT) $(OBJS)
-    @cc $(FLAGS) $(LIBFLAGS) -o $(NAME) $(OBJS) $(LIBFT) minilibx-linux/libmlx.a
+$(NAME): $(LIBFT) $(FT_PRINTF) $(OBJDIRS) $(OBJS)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(FT_PRINTF)
 
 all: $(NAME)
 
-$(OBJDIR):
-    @mkdir -p $(OBJDIR)
+$(OBJDIRS):
+	mkdir -p $@
 
-$(OBJDIR)/%.o: %.c | $(OBJDIR)
-    @cc $(FLAGS) -c $< -o $@
+$(OBJDIR)/%.o: %.c | $(OBJDIRS)
+	$(CC) $(FLAGS) -c $< -o $@
 
 $(LIBFT):
-    @make -C libft all
+	make -C libft all
+
+$(FT_PRINTF):
+	make -C ft_printf all
 
 clean:
-    @rm -rf $(OBJDIR)
+	rm -rf $(OBJDIR)
+	make -C libft clean
+	make -C ft_printf clean
 
 fclean: clean
-    @rm -f $(NAME)
+	rm -f $(NAME)
+	make -C libft fclean
+	make -C ft_printf fclean
 
 re: fclean all

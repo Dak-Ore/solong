@@ -6,74 +6,88 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:18:56 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/28 14:19:29 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:56:21 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "solong.h"
 
-void	findexit(char **map, t_point cur, t_point exit, int *find)
+int	count_element(char **map, t_point *player, t_point *exit)
 {
-	if (cur.x == exit.x && cur.y == exit.y)
-		find[0] = 1;
-	if (map[cur.y][cur.x] == '1' || find[0] == 1
-		|| (find[1] != find[2] && cur.x == exit.x && cur.y == exit .y))
-		return ;
-	findexit(map, (t_point){cur.x - 1, cur.y}, exit, find);
-	findexit(map, (t_point){cur.x + 1, cur.y}, exit, find);
-	findexit(map, (t_point){cur.x, cur.y - 1}, exit, find);
-	findexit(map, (t_point){cur.x, cur.y + 1}, exit, find);
-}
+	int	count;
+	t_point	pos;
 
-int	checkexit(char **map, t_point player, t_point exit)
-{
-	int	*find;
-
-	find[0] = 0;
-	find[1] = 0;
-	find[2] = count_element(map);
-	findexit(map, player, exit, find);
-	return (find[0]);
-}
-
-int	*count_element(char **map)
-{
-	int	count[3];
-	int	x;
-	int	y;
-
-	count[0] = 0;
-	count[1] = 0;
-	count[2] = 0;
-	y = -1;
-	while (map[++y])
+	count = 0;
+	pos.y = -1;
+	while (map[++pos.y])
 	{
-		x = -1;
-		while (map[y][++x])
+		pos.x = -1;
+		while (map[pos.y][++pos.x])
 		{
-			if (map[y][x] == 'P')
-				count[0]++;
-			if (map[y][x] == 'E')
-				count[1]++;
-			if (map[y][x] == 'C')
-				count[2]++;
-			x++;
+			if ((map[pos.y][pos.x] == 'P' && player->x != -1) || (map[pos.y][pos.x] == 'E' && exit->x != -1))
+				return (0);
+			if (map[pos.y][pos.x] == 'P')
+				*player = pos;
+			if (map[pos.y][pos.x] == 'E')
+				*exit = pos;
+			if (map[pos.y][pos.x] == 'C')
+				count++;
 		}
-		y++;
 	}
 	return (count);
 }
 
+int	printerror(char *str)
+{
+	while (*str)
+	{
+		write(2, str, 1);
+		str++;
+	}
+	return (0);
+}
+void	findexit(char **map, t_point cur, t_point exit, int *find, int count)
+{
+	if (cur.x == exit.x && cur.y == exit.y)
+		*find = 1;
+	if (map[cur.y][cur.x] == '1' || *find == 1
+		|| (count != 0 && cur.x == exit.x && cur.y == exit .y))
+		return ;
+	if (map[cur.y][cur.x] == 'C')
+		count--;
+	map[cur.y][cur.x] = '1';
+	findexit(map, (t_point){cur.x - 1, cur.y}, exit, find, count);
+	findexit(map, (t_point){cur.x + 1, cur.y}, exit, find, count);
+	findexit(map, (t_point){cur.x, cur.y - 1}, exit, find, count);
+	findexit(map, (t_point){cur.x, cur.y + 1}, exit, find, count);
+}
+
+int	checkexit(char **map, t_point player, t_point exit, int count)
+{
+	int	find;
+
+	find = 0;
+	findexit(map, player, exit, &find, count);
+	return (find);
+}
+
 int	checkmap(char **map)
 {
-	int	count[3];
+	int	count;
+	t_point	player;
+	t_point	exit;
 
-	count = count_element(map);
-	if (count[0] != 1)
-		return (printerror("Error\n Invalid map, incorrect player (P) number"));
-	if (count[1] != 1)
-		return (printerror("Error\n Invalid map, incorrect exit (E) number"));
-	if (count[0] < 1)
-		return (printerror("Error\n Invalid map, no collectible (C)"));
-	checkexit(map);
+	player.x = -1;
+	exit.x = -1;
+	count = count_element(map, &player, &exit);
+	if (player.x == -1)
+		return (printerror("Error\nInvalid map, incorrect player (P) number"));
+	if (exit.x == -1)
+		return (printerror("Error\nInvalid map, incorrect exit (E) number"));
+	if (count < 1)
+		return (printerror("Error\nInvalid map, no collectible (C)"));
+	if (!checkexit(map, player, exit, count))
+		return (printerror("Error\nMap is not solvable."));
+	return (1);
 }
+

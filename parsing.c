@@ -6,13 +6,13 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/28 11:11:55 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:30:30 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "solong.h"
 
-char	*addrow(char *line, char ***map, int nb)
+char	**addrow(char *line, char ***map, int nb)
 {
 	int		i;
 	char	**newmap;
@@ -21,13 +21,18 @@ char	*addrow(char *line, char ***map, int nb)
 	if (newmap == NULL)
 		return (NULL);
 	i = 0;
-	while ((*map)[i])
+	if (*map)
 	{
-		newmap[i] = (*map)[i];
-		i++;
+		while ((*map)[i])
+		{
+			newmap[i] = ft_strdup(*map)[i];
+			i++;
+		}
 	}
 	newmap[i] = line;
-	free(map);
+	if (*map)
+		free(*map);
+	*map = newmap;
 	return (newmap);
 }
 
@@ -35,30 +40,29 @@ int		checkline(char *line, int islimit, int len)
 {
 	int	i;
 
-	i = 0;
 	if (islimit == 0)
 	{
-		if (line[0] == '1' && line[len] == '1')
+		if (line[0] == '1' && line[len - 2] == '1')
 			return (1);
 		else
 		{
-			ft_printf("Error\n Invalid line\n");
+			ft_printf("Error\nInvalid line\n");
 			return (0);
 		}
 	}
-	else
+	i = 0;
+	while (line[i])
 	{
-		while (line[i])
+		if (line[i] != '1' && line[i] != '\n')
 		{
-			if (line[i] != '1')
-			{
-				ft_printf("Error\n Invalid top or bottom line\n");
-				return (0);
-			}
-			i++;
+			ft_printf("Error\nInvalid top or bottom line\n");
+			return (0);
 		}
+		i++;
 	}
+	return (1);
 }
+
 char	**killmap(char **map, char *line, char *next)
 {
 	int	i;
@@ -71,9 +75,12 @@ char	**killmap(char **map, char *line, char *next)
 	}
 	if (next)
 		free(next);
+	if (line)
+		free(line);
 	free(map);
 	return (NULL);
 }
+
 char	**createmap(int fd)
 {
 	int		len;
@@ -85,33 +92,36 @@ char	**createmap(int fd)
 	nb = 0;
 	line = get_next_line(fd);
 	len = ft_strlen(line);
+	map = NULL;
 	while (line != NULL)
 	{
 		next = get_next_line(fd);
-		if (checkline(line, (nb == 0 || !next)))
-			addrow(line, &map,)
+		ft_printf("%d - %d\n", (nb == 0 || next == NULL), nb);
+		if (checkline(line, (nb == 0 || next == NULL), len))
+			addrow(line, &map, nb);
 		else
 			return (killmap(map, line, next));
 		nb++;
 		line = next;
 	}
+	ft_printf("%s", map[0]);
 	return (map);
 }
 
-int	main(int argc, char **argv)
-{
-	int	fd;
+// int	main(int argc, char **argv)
+// {
+// 	int	fd;
 
-	if (argc != 2)
-	{
-		ft_printf("Error\n Invalid argument number \n");
-		return(0);
-	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-	{
-		ft_printf("Error\n Can't read map");
-		return (0);
-	}
-	return (0);
-}
+// 	if (argc != 2)
+// 	{
+// 		ft_printf("Error\n Invalid argument number \n");
+// 		return(0);
+// 	}
+// 	fd = open(argv[1], O_RDONLY);
+// 	if (fd == -1)
+// 	{
+// 		ft_printf("Error\n Can't read map");
+// 		return (0);
+// 	}
+// 	return (0);
+// }
