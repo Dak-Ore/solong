@@ -6,12 +6,12 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:26 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/29 10:05:10 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/29 10:55:23 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef SOLONG_H
+# define SOLONG_H
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -20,9 +20,10 @@
 # include "ft_printf/ft_printf.h"
 # include "libft/libft.h"
 
-typedef struct 	s_point {
-    int 		x;			
-    int 		y;
+typedef struct s_point
+{
+	int		x;			
+	int		y;
 }	t_point;
 
 char	**createmap(t_list *lst);

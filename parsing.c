@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/29 10:24:37 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/29 10:52:41 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 // 	return (newmap);
 // }
 
-int		checkline(char *line, int islimit, int len)
+int	checkline(char *line, int islimit, int len)
 {
 	int	i;
 
@@ -117,7 +117,7 @@ char	**createmap(t_list *lst)
 	i = 0;
 	map = malloc (sizeof(char *) * (ft_lstsize(lst) + 1));
 	if (!map)
-		return(NULL);
+		return (NULL);
 	while (lst)
 	{
 		map[i] = ft_strtrim((const char *)lst->content, "\n");
