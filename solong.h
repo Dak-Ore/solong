@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:26 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/28 16:42:36 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/29 08:56:45 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <fcntl.h>
 # include <stdarg.h>
 # include "ft_printf/ft_printf.h"
-# include "get_next_line/get_next_line.h"
 # include "libft/libft.h"
 
 typedef struct 	s_point {
@@ -26,13 +25,9 @@ typedef struct 	s_point {
     int 		y;
 }	t_point;
 
-char	*ft_strchr(char *s);
-char	*ft_strjoin(char **s1, char *s2);
-char	*ft_strdup(char *s);
-char	*ft_substr(char *s, unsigned int start, size_t len);
-int		ft_strlen(char *s);
 char	**createmap(int fd);
 int		checkmap(char **map);
 char	**killmap(char **map, char *line, char *next);
+char	*get_next_line(int fd);
 
 #endif
