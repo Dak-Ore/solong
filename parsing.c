@@ -6,35 +6,35 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/28 16:39:47 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/29 10:24:37 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "solong.h"
 
-char	**addrow(char *line, char ***map, int nb)
-{
-	int		i;
-	char	**newmap;
+// char	**addrow(char *line, char ***map, int nb)
+// {
+// 	int		i;
+// 	char	**newmap;
 
-	newmap = malloc((sizeof(char *) * nb + 1));
-	if (newmap == NULL)
-		return (NULL);
-	i = 0;
-	if (*map)
-	{
-		while ((*map)[i])
-		{
-			newmap[i] = ft_strdup((*map)[i]);
-			i++;
-		}
-	}
-	newmap[i] = line;
-	if (*map)
-		free(*map);
-	*map = newmap;
-	return (newmap);
-}
+// 	newmap = malloc((sizeof(char *) * nb + 1));
+// 	if (newmap == NULL)
+// 		return (NULL);
+// 	i = 0;
+// 	if (*map)
+// 	{
+// 		while ((*map)[i])
+// 		{
+// 			newmap[i] = ft_strdup((*map)[i]);
+// 			i++;
+// 		}
+// 	}
+// 	newmap[i] = line;
+// 	if (*map)
+// 		free(*map);
+// 	*map = newmap;
+// 	return (newmap);
+// }
 
 int		checkline(char *line, int islimit, int len)
 {
@@ -81,13 +81,13 @@ char	**killmap(char **map, char *line, char *next)
 	return (NULL);
 }
 
-char	**createmap(int fd)
+t_list	*createlistmap(int fd)
 {
 	int		len;
 	char	*line;
 	int		nb;
 	char	*next;
-	char	**map;
+	t_list	*map;
 
 	nb = 0;
 	line = get_next_line(fd);
@@ -96,15 +96,35 @@ char	**createmap(int fd)
 	while (line != NULL)
 	{
 		next = get_next_line(fd);
-		ft_printf("%d - %d\n", (nb == 0 || next == NULL), nb);
 		if (checkline(line, (nb == 0 || next == NULL), len))
-			addrow(line, &map, nb);
+			ft_lstadd_back(&map, ft_lstnew(line));
 		else
-			return (killmap(map, line, next));
+		{
+			ft_lstclear(&map, free);
+			return (NULL);
+		}
 		nb++;
 		line = next;
 	}
-	ft_printf("%s", map[0]);
+	return (map);
+}
+
+char	**createmap(t_list *lst)
+{
+	char	**map;
+	int		i;
+
+	i = 0;
+	map = malloc (sizeof(char *) * (ft_lstsize(lst) + 1));
+	if (!map)
+		return(NULL);
+	while (lst)
+	{
+		map[i] = ft_strtrim((const char *)lst->content, "\n");
+		lst = lst->next;
+		i++;
+	}
+	map[i] = NULL;
 	return (map);
 }
 

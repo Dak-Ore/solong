@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:26 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/29 08:56:45 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/29 10:05:10 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ typedef struct 	s_point {
     int 		y;
 }	t_point;
 
-char	**createmap(int fd);
+char	**createmap(t_list *lst);
+t_list	*createlistmap(int fd);
 int		checkmap(char **map);
 char	**killmap(char **map, char *line, char *next);
 char	*get_next_line(int fd);

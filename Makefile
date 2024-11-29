@@ -2,36 +2,30 @@ NAME = so_long
 LIBFT = libft/libft.a
 FT_PRINTF = ft_printf/libftprintf.a
 FLAGS = -Wall -Wextra -Werror -ggdb
-SRC_DIR = .
-OBJDIR = obj
 SOURCES = \
-    checkmap.c \
-    parsing.c \
-    main.c \
-    get_next_line/get_next_line.c \
-    get_next_line/get_next_line_utils.c
-OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
-OBJDIRS = $(sort $(dir./ $(OBJS)))
+	checkmap.c \
+	parsing.c \
+	main.c \
+	get_next_line/get_next_line.c \
+	get_next_line/get_next_line_utils.c
+OBJS = $(SOURCES:.c=.o)
 
-$(NAME): $(LIBFT) $(FT_PRINTF) $(OBJDIRS) $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(FT_PRINTF)
+$(NAME): $(OBJS) $(LIBFT) $(FT_PRINTF)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(FT_PRINTF) 
 
 all: $(NAME)
 
-$(OBJDIRS):
-	mkdir -p $@
-
-$(OBJDIR)/%.o: %.c | $(OBJDIRS)
+%.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
 
 $(LIBFT):
-	make -C libft all
+	make -C libft bonus
 
 $(FT_PRINTF):
 	make -C ft_printf all
 
 clean:
-	rm -rf $(OBJDIR)
+	rm -f $(OBJS)
 	make -C libft clean
 	make -C ft_printf clean
 
