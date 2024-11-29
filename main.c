@@ -12,6 +12,28 @@ void	print_map(char **map)
 	}
 }
 
+int render_square(d_vars *vars)
+{
+    int x;
+    int y;
+
+    x = 350;
+    y = 350;
+    mlx_clear_window(vars->mlx, vars->win);
+    while(x < 450)
+    {
+        while(y < 450)
+        {
+        mlx_pixel_put(vars->mlx, vars->win, x + vars->x, y + vars->y, 0xFFDDFF);
+        y++;
+    }
+    y = 350;
+    x++;
+    }
+    mlx_do_sync(vars->mlx);
+    return(1);
+}
+
 int	main(int argc, char **argv)
 {
 	char	**map;
@@ -56,5 +78,8 @@ int	main(int argc, char **argv)
 	print_map(map);
 	killmap(map, NULL, NULL); // Libération de la mémoire après usage
 	close(fd);
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+	mlx_loop(mlx);
 	return (0);
 }

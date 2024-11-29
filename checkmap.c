@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:18:56 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/29 10:59:23 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:21:22 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	checkmap(char **map)
 	if (exit.x == -1)
 		return (printerror("Error\nInvalid map, incorrect exit (E) number"));
 	if (count < 1)
-		return (printerror("Error\nInvalid map, no collectible (C)"));
+		return (printerror("Error\nInvalid map"));
 	if (!checkexit(map, player, exit, count))
 		return (printerror("Error\nMap is not solvable."));
 	return (1);
