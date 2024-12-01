@@ -6,35 +6,26 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/29 10:52:41 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/01 14:27:50 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "solong.h"
 
-// char	**addrow(char *line, char ***map, int nb)
-// {
-// 	int		i;
-// 	char	**newmap;
+int	checkcharacter(char *line, int len)
+{
+	int	i;
 
-// 	newmap = malloc((sizeof(char *) * nb + 1));
-// 	if (newmap == NULL)
-// 		return (NULL);
-// 	i = 0;
-// 	if (*map)
-// 	{
-// 		while ((*map)[i])
-// 		{
-// 			newmap[i] = ft_strdup((*map)[i]);
-// 			i++;
-// 		}
-// 	}
-// 	newmap[i] = line;
-// 	if (*map)
-// 		free(*map);
-// 	*map = newmap;
-// 	return (newmap);
-// }
+	i = 0;
+	while (i < len - 1)
+	{
+		if (!(line[i] == '1' || line[i] == '0' || line[i] == 'P'
+				|| line[i] == 'C' || line[i] == 'E'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	checkline(char *line, int islimit, int len)
 {
@@ -42,7 +33,7 @@ int	checkline(char *line, int islimit, int len)
 
 	if (islimit == 0)
 	{
-		if (line[0] == '1' && line[len - 2] == '1')
+		if (line[0] == '1' && line[len - 2] == '1' && checkcharacter(line, len))
 			return (1);
 		else
 		{
@@ -53,7 +44,7 @@ int	checkline(char *line, int islimit, int len)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != '1' && line[i] != '\n')
+		if (line[i] != '1' && (line[i] != '\n' && i == len - 1))
 		{
 			ft_printf("Error\nInvalid top or bottom line\n");
 			return (0);
@@ -63,7 +54,7 @@ int	checkline(char *line, int islimit, int len)
 	return (1);
 }
 
-char	**killmap(char **map, char *line, char *next)
+char	**killmap(char **map)
 {
 	int	i;
 
@@ -73,10 +64,6 @@ char	**killmap(char **map, char *line, char *next)
 		free(map[i]);
 		i++;
 	}
-	if (next)
-		free(next);
-	if (line)
-		free(line);
 	free(map);
 	return (NULL);
 }
@@ -127,21 +114,3 @@ char	**createmap(t_list *lst)
 	map[i] = NULL;
 	return (map);
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	int	fd;
-
-// 	if (argc != 2)
-// 	{
-// 		ft_printf("Error\n Invalid argument number \n");
-// 		return(0);
-// 	}
-// 	fd = open(argv[1], O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		ft_printf("Error\n Can't read map");
-// 		return (0);
-// 	}
-// 	return (0);
-// }

@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"mlx.h": "c"
+		"mlx.h": "c",
+		"bit": "c",
+		"solong.h": "c"
 	}
 }

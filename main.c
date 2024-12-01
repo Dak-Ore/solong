@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/30 21:57:05 by rsebasti          #+#    #+#             */
+/*   Updated: 2024/12/01 15:21:59 by rsebasti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "solong.h"
 
 void	print_map(char **map)
@@ -12,26 +24,33 @@ void	print_map(char **map)
 	}
 }
 
-int render_square(d_vars *vars)
+void	print_gmap(t_game *game)
 {
-    int x;
-    int y;
+	int		i;
+	int		j;
+	void	*img;
 
-    x = 350;
-    y = 350;
-    mlx_clear_window(vars->mlx, vars->win);
-    while(x < 450)
-    {
-        while(y < 450)
-        {
-        mlx_pixel_put(vars->mlx, vars->win, x + vars->x, y + vars->y, 0xFFDDFF);
-        y++;
-    }
-    y = 350;
-    x++;
-    }
-    mlx_do_sync(vars->mlx);
-    return(1);
+	i = 0;
+	while (game->map.map[i])
+	{
+		j = 0;
+		while (game->map.map[i][j])
+		{
+			if (game->map.map[i][j] == '1')
+				img = game->wall_img;
+			if (game->map.map[i][j] == '0' || game->map.map[i][j] == 'P'
+				|| game->map.map[i][j] == 'E' || game->map.map[i][j] == 'C'
+				|| game->map.map[i][j] == 'O')
+				img = game->floor_img;
+			mlx_put_image_to_window(game->mlx, game->win, img, j * IMG_SIZE,
+				i * IMG_SIZE);
+			if (game->map.map[i][j] == 'P' || game->map.map[i][j] == 'E'
+				|| game->map.map[i][j] == 'C' || game->map.map[i][j] == 'O')
+				put_image_with_transparency(game, game->map.map[i][j], j, i);
+			j++;
+		}
+		i++;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -39,6 +58,8 @@ int	main(int argc, char **argv)
 	char	**map;
 	t_list	*lmap;
 	int		fd;
+	t_game	game;
+	t_map	gmap;
 
 	if (argc != 2)
 	{
@@ -70,16 +91,21 @@ int	main(int argc, char **argv)
 	{
 		ft_printf("Error\n Map validation failed.\n");
 		print_map(map);
-		killmap(map, NULL, NULL); // Libère la mémoire en cas d'erreur
+		killmap(map);
 		close(fd);
 		return (1);
 	}
 	ft_printf("Map is valid and playable! Here is your map:\n");
 	print_map(map);
-	killmap(map, NULL, NULL); // Libération de la mémoire après usage
+	killmap(map);
 	close(fd);
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	mlx_loop(mlx);
+	map = createmap(lmap);
+	init_map(&gmap, map);
+	game.map = gmap;
+	init_game(&game);
+	ft_lstclear(&lmap, free);
+	print_gmap(&game);
+	mlx_key_hook(game.win, key_hook, &game);
+	mlx_loop(game.mlx);
 	return (0);
 }
