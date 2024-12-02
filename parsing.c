@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/12/01 14:27:50 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:38:35 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ int	checkcharacter(char *line, int len)
 	return (1);
 }
 
-int	checkline(char *line, int islimit, int len)
+int	checkline(char *line, int istop, int isbottom, int len)
 {
 	int	i;
 
-	if (islimit == 0)
+	if (len != (int) ft_strlen(line) && isbottom == 0)
+		return (ft_printf("Error\nInvalid line size\n"),0);
+	if (len - 1 != (int) ft_strlen(line) && isbottom == 1)
+		return (ft_printf("Error\nInvalid line size\n"),0);
+	if (isbottom == 0 && istop == 0)
 	{
 		if (line[0] == '1' && line[len - 2] == '1' && checkcharacter(line, len))
 			return (1);
@@ -41,15 +45,13 @@ int	checkline(char *line, int islimit, int len)
 			return (0);
 		}
 	}
-	i = 0;
-	while (line[i])
+	i = -1;
+	while (line[++i] && i < len - 1)
 	{
-		if (line[i] != '1' && (line[i] != '\n' && i == len - 1))
-		{
-			ft_printf("Error\nInvalid top or bottom line\n");
-			return (0);
-		}
-		i++;
+		if (line[i] != '1' && isbottom == 1)
+			return (ft_printf("Error\nInvalid bottom line\n"), 0);
+		if (line[i] != '1' && istop == 1)
+			return (ft_printf("Error\nInvalid top line\n"), 0);
 	}
 	return (1);
 }
@@ -83,11 +85,11 @@ t_list	*createlistmap(int fd)
 	while (line != NULL)
 	{
 		next = get_next_line(fd);
-		if (checkline(line, (nb == 0 || next == NULL), len))
+		if (checkline(line, nb == 0, next == NULL, len))
 			ft_lstadd_back(&map, ft_lstnew(line));
 		else
 		{
-			ft_lstclear(&map, free);
+			listmapcleaner(fd, map, line, next);
 			return (NULL);
 		}
 		nb++;

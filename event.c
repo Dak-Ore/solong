@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 14:06:21 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/12/01 20:58:00 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:16:49 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	move(t_game *game, int keycode)
 
 int	key_hook(int keycode, t_game *game)
 {
-	ft_printf("Hello from key_hook! %d\n", keycode);
 	if (keycode == KEY_ESC)
 		endgame(game);
 	game->nbmove++;

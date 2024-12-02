@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:26 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/12/01 20:53:47 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:11:34 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct s_map
 typedef struct s_img
 {
 	void	*img;
-	char	*addr;
 	int		bpp;
 	int		l_size;
 	int		endian;
@@ -73,6 +72,7 @@ typedef enum e_keyhook
 	KEY_ESC = 65307
 }	t_keyhook;
 
+void	listmapcleaner(int fd, t_list *map, char *line, char *next);
 int		endgame(t_game *game);
 int		key_hook(int keycode, t_game *game);
 void	put_image_with_transparency(t_game *game, char type, int offset_x,

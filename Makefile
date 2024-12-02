@@ -10,10 +10,12 @@ SOURCES = \
 	main.c \
 	init.c \
 	event.c \
+	utils.c \
 	get_next_line/get_next_line.c \
 	get_next_line/get_next_line_utils.c
 OBJS = $(SOURCES:.c=.o)
 
+all: $(NAME)
 # Compilation de l'exécutable final
 $(NAME): $(OBJS) $(LIBFT) $(FT_PRINTF) $(MINILIBX)
 	@cc $(FLAGS) $(OBJS) $(LIBFT) $(FT_PRINTF) $(MINILIBX) $(LIBFLAGS) -o $(NAME)

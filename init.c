@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:02:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/30 22:46:37 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/02 13:13:44 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ t_img	init_img_data(t_game *game, char *str)
 	int		img_h;
 	t_img	myimg;
 
+	img_w = IMG_SIZE;
+	img_h = IMG_SIZE;
+	myimg.bpp = 0;
+	myimg.l_size = 0;
+	myimg.endian = 0;
 	myimg.img = mlx_xpm_file_to_image(game->mlx, str, &img_w, &img_h);
 	myimg.imgdata = (int *)mlx_get_data_addr(myimg.img, &myimg.bpp,
 			&myimg.l_size, &myimg.endian);
@@ -89,6 +94,8 @@ void	init_game(t_game *game)
 	int	img_w;
 	int	img_h;
 
+	img_w = IMG_SIZE;
+	img_h = IMG_SIZE;
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, game->map.width * IMG_SIZE,
 			game->map.height * IMG_SIZE, "SoLong");
