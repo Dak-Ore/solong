@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:26 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/12/01 14:52:50 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/01 20:53:47 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef enum e_keyhook
 	KEY_ESC = 65307
 }	t_keyhook;
 
+int		endgame(t_game *game);
 int		key_hook(int keycode, t_game *game);
 void	put_image_with_transparency(t_game *game, char type, int offset_x,
 			int offset_y);

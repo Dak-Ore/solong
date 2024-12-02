@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:57:05 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/12/01 15:21:59 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/01 20:53:28 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	main(int argc, char **argv)
 	ft_lstclear(&lmap, free);
 	print_gmap(&game);
 	mlx_key_hook(game.win, key_hook, &game);
+	mlx_hook(game.win, 17, 0, endgame, &game);
 	mlx_loop(game.mlx);
 	return (0);
 }
