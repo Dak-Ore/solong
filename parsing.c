@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/12/02 11:38:35 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/19 13:05:00 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	checkline(char *line, int istop, int isbottom, int len)
 	int	i;
 
 	if (len != (int) ft_strlen(line) && isbottom == 0)
-		return (ft_printf("Error\nInvalid line size\n"),0);
+		return (ft_printf("Error\nInvalid line size\n"), 0);
 	if (len - 1 != (int) ft_strlen(line) && isbottom == 1)
-		return (ft_printf("Error\nInvalid line size\n"),0);
+		return (ft_printf("Error\nInvalid line size\n"), 0);
 	if (isbottom == 0 && istop == 0)
 	{
 		if (line[0] == '1' && line[len - 2] == '1' && checkcharacter(line, len))

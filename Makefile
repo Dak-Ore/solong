@@ -16,25 +16,22 @@ SOURCES = \
 OBJS = $(SOURCES:.c=.o)
 
 all: $(NAME)
-# Compilation de l'exécutable final
+
 $(NAME): $(OBJS) $(LIBFT) $(FT_PRINTF) $(MINILIBX)
 	@cc $(FLAGS) $(OBJS) $(LIBFT) $(FT_PRINTF) $(MINILIBX) $(LIBFLAGS) -o $(NAME)
 
-# Compilation des fichiers objets
 %.o: %.c
 	@cc $(FLAGS) -c $< -o $@
 
-# Compilation des bibliothèques tierces
 $(LIBFT):
-	@make -C libft bonus
+	@make -s -C libft bonus
 
 $(FT_PRINTF):
-	@make -C ft_printf all
+	@make -s -C ft_printf all
 
 $(MINILIBX):
-	@make -C .minilibx-linux
+	@make -s -C .minilibx-linux
 
-# Cibles de nettoyage
 clean:
 	@rm -f $(OBJS)
 	@make -C libft clean
@@ -43,9 +40,8 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@make -C libft fclean
-	@make -C ft_printf fclean
-	@make -C .minilibx-linux clean
+	@make -s -C libft fclean
+	@make -s -C ft_printf fclean
+	@make -s -C .minilibx-linux clean
 
-# Recompilation complète
 re: fclean all

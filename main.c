@@ -6,23 +6,11 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:57:05 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/12/02 10:57:46 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/19 13:13:54 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "solong.h"
-
-void	print_map(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-	{
-		ft_printf("%s\n", map[i]);
-		i++;
-	}
-}
 
 void	print_gmap(t_game *game)
 {
@@ -53,52 +41,42 @@ void	print_gmap(t_game *game)
 	}
 }
 
+int	map_runnable(char **argv, t_list **lmap)
+{
+	char	**map;
+	int		fd;
+
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+		return (ft_printf("Error opening file"), 0);
+	*lmap = createlistmap(fd);
+	if (!*lmap)
+		return (ft_printf("Error\nFailed to create the list map.\n")
+			, close(fd), 0);
+	map = createmap(*lmap);
+	if (!map)
+	{
+		ft_lstclear(lmap, free);
+		return (ft_printf("Error\nFailed to create the map.\n"), close(fd), 0);
+	}
+	if (!checkmap(map))
+		return (ft_lstclear(lmap, free), killmap(map), close(fd), 0);
+	killmap(map);
+	close(fd);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	char	**map;
 	t_list	*lmap;
-	int		fd;
 	t_game	game;
 	t_map	gmap;
 
 	if (argc != 2)
-	{
-		ft_printf("Usage: %s <map_file>\n", argv[0]);
-		return (1);
-	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-	{
-		ft_printf("Error opening file");
-		return (1);
-	}
-	lmap = createlistmap(fd);
-	if (!lmap)
-	{
-		ft_printf("Error\n Failed to create the list map.\n");
-		close(fd);
-		return (1);
-	}
-	map = createmap(lmap);
-	if (!map)
-	{
-		ft_printf("Error\n Failed to create the map.\n");
-		close(fd);
-		return (1);
-	}
-	print_map(map);
-	if (!checkmap(map))
-	{
-		ft_printf("Error\n Map validation failed.\n");
-		print_map(map);
-		killmap(map);
-		close(fd);
-		return (1);
-	}
-	ft_printf("Map is valid and playable! Here is your map:\n");
-	print_map(map);
-	killmap(map);
-	close(fd);
+		return (ft_printf("Usage: %s <map_file>\n", argv[0]), 1);
+	if (map_runnable(argv, &lmap) == 0)
+		return (0);
 	map = createmap(lmap);
 	init_map(&gmap, map);
 	game.map = gmap;

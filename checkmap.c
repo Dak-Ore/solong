@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:18:56 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/11/29 13:21:22 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/19 13:09:34 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,11 @@ int	checkmap(char **map)
 	player.x = -1;
 	exit.x = -1;
 	count = count_element(map, &player, &exit);
-	if (player.x == -1)
-		return (printerror("Error\nInvalid map, incorrect player (P) number"));
-	if (exit.x == -1)
-		return (printerror("Error\nInvalid map, incorrect exit (E) number"));
+	if (player.x == -1 || exit.x == -1)
+		return (printerror("Error\nInvalid map, incorrect player or exit number\n"));
 	if (count < 1)
-		return (printerror("Error\nInvalid map"));
+		return (printerror("Error\nInvalid map\n"));
 	if (!checkexit(map, player, exit, count))
-		return (printerror("Error\nMap is not solvable."));
+		return (printerror("Error\nMap is not solvable.\n"));
 	return (1);
 }
