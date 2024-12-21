@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 14:11:26 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/12/02 11:11:34 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/21 13:11:08 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "libft/libft.h"
 # include ".minilibx-linux/mlx.h"
 
-# define IMG_SIZE 32
+# define IMG_SIZE 96
 
 typedef struct s_point
 {

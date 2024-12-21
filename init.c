@@ -6,7 +6,7 @@
 /*   By: rsebasti <rsebasti@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 13:02:10 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/12/02 13:13:44 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/12/21 13:12:12 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	put_image_with_transparency(t_game *game, char type, int offset_x,
 		{
 			color = img.imgdata[y * (img.l_size / 4) + x];
 			if ((color >> 24 & 0xFF) == 0)
-				mlx_pixel_put(game->mlx, game->win, x + (offset_x * 32),
-					y + (offset_y * 32), color);
+				mlx_pixel_put(game->mlx, game->win, x + (offset_x * IMG_SIZE),
+					y + (offset_y * IMG_SIZE), color);
 			x++;
 		}
 		y++;
